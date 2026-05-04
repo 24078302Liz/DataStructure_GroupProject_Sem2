@@ -1,15 +1,16 @@
 public class Book {
-    private int isbn;
-    private String title;
-    private String author;
+    int isbn;
+    String title;
+    String author;
+
+    // BST Pointers (Nazeef's task)
+    public Book left, right;
+
     public Book(int isbn, String title, String author) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
-    }
-
-    @Override
-    public String toString() {
-        return "ISBN: " + isbn + " | '" + title + "' by " + author;
+        this.left = null;
+        this.right = null;
     }
 }
