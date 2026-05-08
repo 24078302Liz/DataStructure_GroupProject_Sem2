@@ -18,7 +18,7 @@ public class BorrowStack {
         System.out.println("--- Borrowing History (Most Recent First) ---");
         for (int i = stack.size() - 1; i >= 0; i--) {
             Book b = stack.get(i);
-            System.out.println("[ISBN: " + b.isbn + "] " + b.title);
+            System.out.println("[ISBN: " + b.getIsbn()+ "] " + b.getTitle());
         }
         System.out.println("---------------------------------------------");
     }
