@@ -48,13 +48,21 @@ public class Main {
         System.out.println("\n[Test 2.2] Confirming BST Structure (In-Order Traversal):");
         printAllBooks(catalogue); // Expected: 20 30 40 50 70
 
-        System.out.println("\n[Test 2.3] Searching for Existing ISBN (30):");
-        Book foundBook = catalogue.search(30);
-        if (foundBook != null) {
-            System.out.println("Result: Found -> ISBN " + foundBook.getIsbn() + " | Title: '" + foundBook.getTitle() + "'");
-        } else {
-            System.out.println("Result: Book not found. (FAIL)");
+        System.out.println("\n[Test 2.3b] Searching for Existing ISBNs (50, 20, 40, 70):");
+
+        int[] existingIsbns = {50, 20, 40, 70};
+
+        for (int isbn : existingIsbns) {
+            Book book = catalogue.search(isbn);
+
+            if (book != null) {
+                System.out.println("Result: Found -> ISBN " + book.getIsbn()
+                        + " | Title: '" + book.getTitle() + "'");
+            } else {
+                System.out.println("Result: Book not found for ISBN " + isbn + ". (FAIL)");
+            }
         }
+
 
         System.out.println("\n[Test 2.4] Searching for Missing ISBN (99):");
         Book missingBook = catalogue.search(99);

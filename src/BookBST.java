@@ -121,8 +121,18 @@ public class BookBST {
      * @return The found Book, or null if we reach a dead end.
      */
     private Book recursiveSearch(Book currentNode, int isbn) {
-        // TODO for YuDong: Implement the recursive search logic here
-        
-        return null; // Placeholder return statement
+        if (currentNode == null) {
+            return null;
+        }
+
+        if (currentNode.getIsbn() == isbn) {
+            return currentNode;
+        }
+
+        if (isbn < currentNode.getIsbn()) {
+            return recursiveSearch(currentNode.getLeft(), isbn);
+        } else {
+            return recursiveSearch(currentNode.getRight(), isbn);
+        }
     }
 }
