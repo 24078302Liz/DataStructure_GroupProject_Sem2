@@ -108,8 +108,7 @@ public class BookBST {
      * @return The Book object if found, or null if it doesn't exist in the tree.
      */
     public Book search(int isbn) {
-        // Start the recursive search from the root
-        return recursiveSearch(root, isbn); // Placeholder return statement
+        return recursiveSearch(root, isbn);
     }
 
     /**
