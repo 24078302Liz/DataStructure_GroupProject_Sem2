@@ -11,7 +11,7 @@ public class Main {
     }
 
     // ==========================================
-    // MODULE 1: BORROW STACK TESTING (BINGYAN) -- Kindly make another trial with updated Book Class
+    // MODULE 1: BORROW STACK TESTING (BINGYAN) 
     // ==========================================
     private static void runBorrowStackTests() {
         System.out.println(">>> TESTING MODULE 1: BORROWING HISTORY (STACK) <<<");
@@ -31,7 +31,7 @@ public class Main {
     }
 
     // ==========================================
-    // MODULE 2: CATALOGUE TESTING (NAZEEF & YUDONG) -- Search to be implemneted
+    // MODULE 2: CATALOGUE TESTING (NAZEEF & YUDONG)
     // ==========================================
     private static void runBookBSTTests() {
         System.out.println(">>> TESTING MODULE 2: CATALOGUE SEARCH (BST) <<<");
@@ -48,7 +48,7 @@ public class Main {
         System.out.println("\n[Test 2.2] Confirming BST Structure (In-Order Traversal):");
         printAllBooks(catalogue); // Expected: 20 30 40 50 70
 
-        System.out.println("\n[Test 2.3b] Searching for Existing ISBNs (50, 20, 40, 70):");
+        System.out.println("\n[Test 2.3] Searching for Existing ISBNs (50, 20, 40, 70):");
 
         int[] existingIsbns = {50, 20, 40, 70};
 
