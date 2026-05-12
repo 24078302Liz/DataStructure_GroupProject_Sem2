@@ -87,50 +87,45 @@ public class BookBST {
     public Book getRoot(){
         return root;
     }
-    
+  
 
 
-
-
-
-
-
-
-
-
-    // ... Recursive Search(To be implemented by YuDong) ...
+    // --- BST Search Operations ---
 
     /**
      * Public entry point to search for a book by its ISBN.
-     * (To be implemented)
-     * 
      * @param isbn The ISBN of the book to find.
-     * @return The Book object if found, or null if it doesn't exist in the tree.
+     * @return The Book object if found, or null if it doesn't exist in the catalogue.
      */
     public Book search(int isbn) {
+        // Start the recursive search from the root of the tree
         return recursiveSearch(root, isbn);
     }
 
     /**
-     * Recursive helper method for searching.
-     * (YuDong: Add your recursive logic here! Add any necessary helper method if needed. If you need any change in the Book class, just let me know ;)
-     * 
+     * Recursive helper method to traverse the BST and locate a specific book.
      * @param currentNode The node currently being checked.
-     * @param isbn        The ISBN we are looking for.
-     * @return The found Book, or null if we reach a dead end.
+     * @param isbn        The target ISBN we are looking for.
+     * @return The found Book, or null if we reach a dead end (book not found).
      */
     private Book recursiveSearch(Book currentNode, int isbn) {
+        // Base case 1: Reached a dead end; the book does not exist in this path
         if (currentNode == null) {
             return null;
         }
 
+        // Base case 2: The current node's ISBN matches the target ISBN
         if (currentNode.getIsbn() == isbn) {
             return currentNode;
         }
 
+        // Recursive case 1: Target ISBN is smaller, continue search in the left subtree
         if (isbn < currentNode.getIsbn()) {
             return recursiveSearch(currentNode.getLeft(), isbn);
-        } else {
+        } 
+
+        // Recursive case 2: Target ISBN is larger, continue search in the right subtree
+        else {
             return recursiveSearch(currentNode.getRight(), isbn);
         }
     }
