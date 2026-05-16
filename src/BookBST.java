@@ -133,4 +133,64 @@ public class BookBST {
         }
         return current;
     }
+
+    // BST Delete Operation
+
+    /**
+     * Public entry point to delete a book from the tree by its ISBN.
+     * @param isbn The ISBN of the book to remove.
+     */
+
+    public void delete(int isbn) {
+        // start recursive deletion from the root
+        root = recursiveDelete(root, isbn);
+    }
+
+    /**
+     * Recursive helper method to find and remove the book from the BST.
+     * handles 3 cases: no child, one child, two children
+     */
+
+    private Book recursiveDelete(Book currentNode, int isbn) {
+        // base: book not found in the tree
+        if (currentNode == null) {
+            System.out.println("Book with ISBN " + isbn + " not found in catalogue.");
+            return null;
+        }
+
+        // traverse left if isbn is smaller
+        if (isbn < currentNode.getIsbn()) {
+            currentNode.setLeft(recursiveDelete(currentNode.getLeft(), isbn));
+        }
+
+        // traverse right if isbn is larger
+        else if (isbn > currentNode.getIsbn()) {
+            currentNode.setRight(recursiveDelete(currentNode.getRight(), isbn));
+        }
+
+        // found node to delete
+        else {
+            // no left child, then replace with right child
+            if (!currentNode.hasLeft()) {
+                return currentNode.getRight();
+            }
+
+            // no right child, then replace with left child
+            else if (!currentNode.hasRight()) {
+                return currentNode.getLeft();
+            }
+
+            // two children find in-order successor (smallest in right subtree)
+            Book successor = getMinValueNode(currentNode.getRight());
+
+            // replace current node's data with successor's data
+            currentNode = new Book(successor.getIsbn(), successor.getTitle(), successor.getAuthor());
+
+            // delete the successor from right subtree
+            currentNode.setRight(recursiveDelete(currentNode.getRight(), successor.getIsbn()));
+            currentNode.setLeft(currentNode.getLeft());
+        }
+
+        return currentNode;
+    }
 }
