@@ -70,4 +70,18 @@ public class Book {
         return right;
     }
 
+    // --- Setters for Book Deletation ---
+
+    public void setIsbn(int isbn){
+        this.isbn = isbn;
+    }
+    
+    public void setTitle(String title){
+        this.title = title;
+    }
+    
+    public void setAuthor(String author){
+        this.author = author;
+    }
+
 }
