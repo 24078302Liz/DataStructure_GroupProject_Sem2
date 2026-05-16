@@ -120,56 +120,6 @@ public class BookBST {
         }
     }
 
-    // ==========================================
-    // --- NEWLY ADDED BST DELETION OPERATIONS ---
-    // ==========================================
-
-    /**
-     * Public entry point to delete a book from the tree by its ISBN.
-     * @param isbn The ISBN of the book to remove.
-     */
-    public void delete(int isbn) {
-        root = recursiveDelete(root, isbn);
-    }
-
-    /**
-     * Recursive helper method to remove a node and restructure the tree.
-     */
-    private Book recursiveDelete(Book currentNode, int isbn) {
-        // Base case: tree is empty or we reached a dead end
-        if (currentNode == null) {
-            return null;
-        }
-
-        // Traverse the tree to find the node
-        if (isbn < currentNode.getIsbn()) {
-            currentNode.setLeft(recursiveDelete(currentNode.getLeft(), isbn));
-        } else if (isbn > currentNode.getIsbn()) {
-            currentNode.setRight(recursiveDelete(currentNode.getRight(), isbn));
-        } else {
-            // Node found! Time to delete it.
-
-            // Scenario 1 & 2: Node with only one child or no child
-            if (currentNode.getLeft() == null) {
-                return currentNode.getRight();
-            } else if (currentNode.getRight() == null) {
-                return currentNode.getLeft();
-            }
-
-            // Scenario 3: Node with two children
-            // Find the in-order successor (smallest value in the right subtree)
-            Book successor = getMinValueNode(currentNode.getRight());
-
-            // Swap the data from the successor to the current node
-            currentNode.setIsbn(successor.getIsbn());
-            currentNode.setTitle(successor.getTitle());
-            currentNode.setAuthor(successor.getAuthor());
-
-            // Delete the in-order successor from the right subtree
-            currentNode.setRight(recursiveDelete(currentNode.getRight(), successor.getIsbn()));
-        }
-        return currentNode;
-    }
 
     /**
      * Helper method to find the node with the minimum value (leftmost leaf).
