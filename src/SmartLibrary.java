@@ -66,7 +66,7 @@ public class SmartLibrary implements LibraryADT {
     private void printMenu() {
         System.out.println("\n--- Smart Library Menu ---");
         System.out.println("1. Add Book");
-        System.out.println("2. Search Book (BST)");
+        System.out.println("2. Search Book");
         System.out.println("3. Borrow Book");
         System.out.println("4. View History");
         System.out.println("5. Exit");
