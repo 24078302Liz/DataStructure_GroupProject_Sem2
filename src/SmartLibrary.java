@@ -22,7 +22,12 @@ public class SmartLibrary implements LibraryADT {
     public void borrowBook(int isbn){
         Book b = catalogue.search(isbn);
         if (b != null) {
+            // Push to BingYan's history stack
             history.push(b);
+
+            // Remove from Nazeef's BST catalogue
+            catalogue.delete(isbn);
+
             System.out.println("Book with ISBN " + isbn + " has been borrowed.");
         } else {
             System.out.println("Book not in catalogue.");
