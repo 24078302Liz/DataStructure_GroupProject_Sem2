@@ -16,6 +16,8 @@ public class BorrowStack {
     public void push(Book book) {
         if (book != null) {
             stack.push(book);
+        }else{
+            System.out.println("Error:Cannot add a null book to history.");
         }
     }
 
@@ -29,7 +31,7 @@ public class BorrowStack {
         System.out.println("--- Borrowing History (Most Recent First) ---");
         for (int i = stack.size() - 1; i >= 0; i--) {
             Book b = stack.get(i);
-            System.out.println("[ISBN: " + b.getIsbn() + "] " + b.getTitle());
+            System.out.println("[ISBN: " + b.getIsbn() + "] " + b.getTitle() + "by" + b.getAuthor());
         }
         System.out.println("---------------------------------------------");
     }
