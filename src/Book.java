@@ -69,4 +69,12 @@ public class Book {
     public Book getRight(){
         return right;
     }
+
+    // --- Setters for Deletion ---
+
+    public void setIsbn(int isbn) { this.isbn = isbn; }
+
+    public void setTitle(String title) { this.title = title; }
+
+    public void setAuthor(String author) { this.author = author; }
 }
