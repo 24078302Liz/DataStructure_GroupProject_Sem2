@@ -1,5 +1,7 @@
 import java.util.Scanner;
-
+/**
+ * Implements the library operations and provides a console menu for users.
+ */
 public class SmartLibrary implements LibraryADT {
     private BookBST catalogue = new BookBST();
     private BorrowStack history = new BorrowStack();
