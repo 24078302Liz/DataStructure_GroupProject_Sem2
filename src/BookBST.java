@@ -17,6 +17,7 @@ public class BookBST {
         // If the tree is empty, the new book becomes the root
         if(isEmpty()){
             setRoot(new Book(isbn, title, author));
+            System.out.println("Book with ISBN " + isbn + " has been added to the library.");
         }
         else{
             // Otherwise, start the recursive insertion process from the root
@@ -60,6 +61,8 @@ public class BookBST {
                 currentNode.setRight(newBook);
             }
         }
+
+        System.out.println("Book with ISBN " + newIsbn + " has been added to the library.");
     }
 
 

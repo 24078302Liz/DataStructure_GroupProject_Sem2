@@ -1,3 +1,6 @@
+/**
+ * Defines the main operations supported by the smart library system.
+ */
 public interface LibraryADT {
     // Adds a new book to the library
     void addBook(int isbn, String title, String author);

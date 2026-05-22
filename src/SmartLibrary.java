@@ -1,5 +1,7 @@
 import java.util.Scanner;
-
+/**
+ * Implements the library operations and provides a console menu for users.
+ */
 public class SmartLibrary implements LibraryADT {
     private BookBST catalogue = new BookBST();
     private BorrowStack history = new BorrowStack();
@@ -8,7 +10,6 @@ public class SmartLibrary implements LibraryADT {
     @Override
     public void addBook(int isbn, String title, String author){
         catalogue.insert(isbn, title, author);
-        System.out.println("Book with ISBN " + isbn + " has been added to the library.");
     }
 
     // Returns the Book object if found, otherwise returns null
