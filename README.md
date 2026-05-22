@@ -45,10 +45,10 @@ The `SmartLibrary` class links the modules into an atomic transaction flow encom
 
 ## 👨‍💻 Team Distribution
 
-| Engineer                                  | Role Assignment | Core Architectural Responsibility |
-|:------------------------------------------| :--- | :--- |
-| **Chen BingYan** <br>*(24078302)*         | Borrowing History | Constructed the `BorrowStack` transactional layer, enforced null-safety, and implemented non-destructive reverse-index stack traversal. |
-| **Beby Azzura** <br>*(24201647)*          | Integration & UI | Wrote the main loop console harness, implemented safe token-based input scanners, and fused the BST-to-Stack workflow. |
-| **YuDong Chen** <br>*(24074901)*          | Record Finder | Designed and optimized the recursive lookup algorithms establishing key-matching conditional branches. |
-| **Hilal Mumtaz S. H.** <br>*(24200675)*   | ADT Designer | Authored the structural contract (`LibraryADT`), governed architectural compliance, and verified information hiding. |
-| **Nazeef Nuwaisir Khan** <br>*(24085530)* | Catalogue Architect | Engineered the `Book` node topology and recursive leaf/branch node balancing insertion mechanics. |
+| Engineer                                        | Role Assignment | Core Architectural Responsibility |
+|:------------------------------------------------| :--- | :--- |
+| **Chen BingYan** <br>*(24078302)*               | Borrowing History | Constructed the `BorrowStack` transactional layer, enforced null-safety, and implemented non-destructive reverse-index stack traversal. |
+| **Beby Azzura** <br>*(24201647)*                | Integration & UI | Wrote the main loop console harness, implemented safe token-based input scanners, and fused the BST-to-Stack workflow. |
+| **YuDong Chen** <br>*(24074901)*                | Record Finder | Designed and optimized the recursive lookup algorithms establishing key-matching conditional branches. |
+| **Hilal Mumtaz Saleh Harahap** <br>*(24200675)* | ADT Designer | Authored the structural contract (`LibraryADT`), governed architectural compliance, and verified information hiding. |
+| **Nazeef Nuwaisir Khan** <br>*(24085530)*       | Catalogue Architect | Engineered the `Book` node topology and recursive leaf/branch node balancing insertion mechanics. |
