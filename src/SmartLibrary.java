@@ -121,26 +121,9 @@ public class SmartLibrary implements LibraryADT {
                 addBook(addIsbn, title, author);
                 break;
 
-            case 2:
-                // same isbn validation here
-                System.out.print("Enter ISBN to search: ");
-                String searchInput = sc.nextLine();
-                int searchIsbn;
-                try {
-                    searchIsbn = Integer.parseInt(searchInput.trim());
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid ISBN. Please enter a number.");
-                    break;
-                }
-                Book found = SearchBook(searchIsbn);
 
-                // show details if found, tell user it doesnt exist otherwise
-                if (found != null) {
-                    System.out.println("Found: [ISBN: " + found.getIsbn() + "] "
-                            + found.getTitle() + " by " + found.getAuthor());
-                } else {
-                    System.out.println("Book not found.");
-                }
+            case 2:
+                handleSearch(sc);
                 break;
 
             case 3:
@@ -166,6 +149,65 @@ public class SmartLibrary implements LibraryADT {
             default:
                 // catches anything outside 1-5
                 System.out.println("Invalid option. Please choose 1-5.");
+        }
+    }
+    // Displays the search menu and handles the selected search method
+    private void handleSearch(Scanner sc) {
+        System.out.println("\n--- Search Options ---");
+        System.out.println("1. Search by ISBN");
+        System.out.println("2. Search by Title");
+        System.out.println("3. Search by Author");
+        System.out.print("Choice: ");
+
+        String input = sc.nextLine();
+
+        switch (input) {
+            case "1":
+                // ISBN search can use the BST search directly because ISBN is the sorting key
+                System.out.print("Enter ISBN to search: ");
+                String isbnInput = sc.nextLine();
+
+                try {
+                    int isbn = Integer.parseInt(isbnInput.trim());
+                    Book found = SearchBook(isbn);
+
+                    if (found != null) {
+                        System.out.println("Found: [ISBN: " + found.getIsbn() + "] "
+                                + found.getTitle() + " by " + found.getAuthor());
+                    } else {
+                        System.out.println("Book not found.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid ISBN. Please enter a number.");
+                }
+                break;
+
+            case "2":
+                // Title search accepts partial keywords, so the user does not need the full title
+                System.out.print("Enter title keyword: ");
+                String titleKeyword = sc.nextLine().trim();
+
+                if (titleKeyword.isEmpty()) {
+                    System.out.println("Keyword cannot be empty.");
+                } else {
+                    catalogue.searchByTitle(titleKeyword);
+                }
+                break;
+
+            case "3":
+                // Author search also supports partial and case-insensitive matching
+                System.out.print("Enter author keyword: ");
+                String authorKeyword = sc.nextLine().trim();
+
+                if (authorKeyword.isEmpty()) {
+                    System.out.println("Keyword cannot be empty.");
+                } else {
+                    catalogue.searchByAuthor(authorKeyword);
+                }
+                break;
+
+            default:
+                System.out.println("Invalid search option.");
         }
     }
 }

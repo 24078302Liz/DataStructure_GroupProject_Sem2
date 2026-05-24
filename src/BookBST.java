@@ -197,4 +197,77 @@ public class BookBST {
 
         return currentNode;
     }
+    // Searches for books whose title contains the keyword entered by the user
+    public void searchByTitle(String keyword) {
+        boolean found = recursiveSearchByTitle(root, keyword.toLowerCase());
+
+        if (!found) {
+            System.out.println("No books found with title containing: " + keyword);
+        }
+    }
+
+    // Recursively traverses the entire BST to search by title
+// Full traversal is needed because the BST is sorted by ISBN, not by title
+    private boolean recursiveSearchByTitle(Book currentNode, String keyword) {
+        if (currentNode == null) {
+            return false;
+        }
+
+        // Search the left subtree first
+        boolean foundInLeft = recursiveSearchByTitle(currentNode.getLeft(), keyword);
+
+        boolean foundCurrent = false;
+
+        // Case-insensitive partial match for the book title
+        if (currentNode.getTitle().toLowerCase().contains(keyword)) {
+            printBook(currentNode);
+            foundCurrent = true;
+        }
+
+        // Search the right subtree after checking the current node
+        boolean foundInRight = recursiveSearchByTitle(currentNode.getRight(), keyword);
+
+        // Return true if the book was found anywhere in this subtree
+        return foundInLeft || foundCurrent || foundInRight;
+    }
+
+    // Searches for books whose author contains the keyword entered by the user
+    public void searchByAuthor(String keyword) {
+        boolean found = recursiveSearchByAuthor(root, keyword.toLowerCase());
+
+        if (!found) {
+            System.out.println("No books found by author containing: " + keyword);
+        }
+    }
+
+    // Recursively traverses the entire BST to search by author
+// Full traversal is needed because the BST is sorted by ISBN, not by author
+    private boolean recursiveSearchByAuthor(Book currentNode, String keyword) {
+        if (currentNode == null) {
+            return false;
+        }
+
+        // Search the left subtree first
+        boolean foundInLeft = recursiveSearchByAuthor(currentNode.getLeft(), keyword);
+
+        boolean foundCurrent = false;
+
+        // Case-insensitive partial match for the author's name
+        if (currentNode.getAuthor().toLowerCase().contains(keyword)) {
+            printBook(currentNode);
+            foundCurrent = true;
+        }
+
+        // Search the right subtree after checking the current node
+        boolean foundInRight = recursiveSearchByAuthor(currentNode.getRight(), keyword);
+
+        // Return true if the author was found anywhere in this subtree
+        return foundInLeft || foundCurrent || foundInRight;
+    }
+
+    // Helper method to keep the output format consistent for all search results
+    private void printBook(Book book) {
+        System.out.println("[ISBN: " + book.getIsbn() + "] "
+                + book.getTitle() + " by " + book.getAuthor());
+    }
 }
