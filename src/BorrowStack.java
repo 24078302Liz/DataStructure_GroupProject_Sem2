@@ -1,38 +1,43 @@
 import java.util.Stack;
 
-// Manages the student's borrowing history using a Stack (LIFO)
 public class BorrowStack {
+    // Encapsulated stack to hold the history records privately
+    private Stack<LoanRecord> stack;
 
-    // private to prevent outside access
-    private Stack<Book> stack;
-
-    // Initialize an empty stack
+    // Constructor to initialize an empty history stack
     public BorrowStack() {
         this.stack = new Stack<>();
     }
 
-    // Push a borrowed book to the top
-    // null check prevents invalid entries from being stored
-    public void push(Book book) {
-        if (book != null) {
-            stack.push(book);
-        }else{
-            System.out.println("Error:Cannot add a null book to history.");
+    // Pushes a new borrowing transaction onto the top of the stack
+    public void push(LoanRecord record) {
+        // Validation check to prevent adding empty entries
+        if (record != null) {
+            stack.push(record);
+        } else {
+            System.out.println("History Error: Cannot log an empty transaction record.");
         }
     }
 
-    // Displays borrowing history with most recently borrowed book first
-    // Iterates from top of stack down to bottom
+    // Displays the entire history from most recent to oldest (LIFO order)
     public void show() {
+        // Edge case handling if the stack has no items
         if (stack.isEmpty()) {
-            System.out.println("History is empty.");
+            System.out.println("Your borrowing history is currently empty.");
             return;
         }
-        System.out.println("--- Borrowing History (Most Recent First) ---");
+
+        System.out.println("\n--- Enhanced Borrowing History (LIFO Order) ---");
+
+        // Loop backwards starting from the top index down to 0
         for (int i = stack.size() - 1; i >= 0; i--) {
-            Book b = stack.get(i);
+            LoanRecord record = stack.get(i);
+            Book b = record.getBook();
+
+            // Print out individual transaction details
             System.out.println("[ISBN: " + b.getIsbn() + "] " + b.getTitle() + " by " + b.getAuthor());
+            System.out.println("   \u21b3 Borrowed by: " + record.getStudentId() + " on " + record.getBorrowDate());
+            System.out.println("------------------------------------------------");
         }
-        System.out.println("---------------------------------------------");
     }
 }

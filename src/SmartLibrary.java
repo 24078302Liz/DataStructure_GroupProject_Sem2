@@ -20,18 +20,27 @@ public class SmartLibrary implements LibraryADT {
 
     // Allows a user to borrow a book by its ISBN
     @Override
-    public void borrowBook(int isbn){
+    public void borrowBook(int isbn) {
+        // 1. Find the book in the tree catalog
         Book b = catalogue.search(isbn);
-        if (b != null) {
-            // Push to BingYan's history stack
-            history.push(b);
 
-            // Remove from Nazeef's BST catalogue
+        if (b != null) {
+            // For demonstration, use a placeholder or scan a real student ID
+            String activeStudent = "UM-2026-AI";
+
+            // 2. CREATE THE LOAN RECORD (Your class)
+            LoanRecord record = new LoanRecord(b, activeStudent);
+
+            // 3. PUSH TO THE HISTORY STACK (Your class method)
+            history.push(record);
+
+            // 4. PHYSICAL DELETION (Admin Logic task)
+            // Permanently deletes the node from the BST catalog as required by the PDF
             catalogue.delete(isbn);
 
-            System.out.println("Book with ISBN " + isbn + " has been borrowed.");
+            System.out.println("Success! Book moved from catalog to your history stack.");
         } else {
-            System.out.println("Book not in catalogue.");
+            System.out.println("Book not found in catalogue.");
         }
     }
 

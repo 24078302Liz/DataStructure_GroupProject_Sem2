@@ -183,15 +183,16 @@ public class BookBST {
                 return currentNode.getLeft();
             }
 
-            // two children find in-order successor (smallest in right subtree)
+            // Find the in-order successor, which is the smallest node in the right subtree.
             Book successor = getMinValueNode(currentNode.getRight());
 
-            // replace current node's data with successor's data
-            currentNode = new Book(successor.getIsbn(), successor.getTitle(), successor.getAuthor());
+            // Replace the current node's book information with the successor's information.
+            currentNode.setIsbn(successor.getIsbn());
+            currentNode.setTitle(successor.getTitle());
+            currentNode.setAuthor(successor.getAuthor());
 
-            // delete the successor from right subtree
+            // Remove the successor from its original position to avoid duplicate ISBNs.
             currentNode.setRight(recursiveDelete(currentNode.getRight(), successor.getIsbn()));
-            currentNode.setLeft(currentNode.getLeft());
         }
 
         return currentNode;
