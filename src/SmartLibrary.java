@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class SmartLibrary implements LibraryADT {
     private BookBST catalogue = new BookBST();
     private BorrowStack history = new BorrowStack();
+    private FineManager fineManager = new FineManager();
 
     // Adds a new book to the library
     @Override
@@ -63,12 +64,12 @@ public class SmartLibrary implements LibraryADT {
             try {
                 choice = Integer.parseInt(menuInput.trim());
             } catch (NumberFormatException e) {
-                System.out.println("Invalid option. Please enter a number between 1-5.");
+                System.out.println("Invalid option. Please enter a number between 1-6.");
                 continue;
             }
 
             // exit condition
-            if (choice == 5) {
+            if (choice == 6) {
                 System.out.println("Goodbye !!");
                 break;
             }
@@ -84,7 +85,8 @@ public class SmartLibrary implements LibraryADT {
         System.out.println("2. Search Book");
         System.out.println("3. Borrow Book");
         System.out.println("4. View History");
-        System.out.println("5. Exit");
+        System.out.println("5. Fine Manager");
+        System.out.println("6. Exit");
     }
 
     // handles choice based on what the user picked
@@ -121,13 +123,11 @@ public class SmartLibrary implements LibraryADT {
                 addBook(addIsbn, title, author);
                 break;
 
-
             case 2:
                 handleSearch(sc);
                 break;
 
             case 3:
-
                 // validate isbn then pass to borrowBook to handle the rest
                 System.out.print("Enter ISBN to borrow: ");
                 String borrowInput = sc.nextLine();
@@ -146,11 +146,17 @@ public class SmartLibrary implements LibraryADT {
                 viewLatestHistory();
                 break;
 
+            case 5:
+                // han's fine manager submenu
+                handleFineManager(sc);
+                break;
+
             default:
-                // catches anything outside 1-5
-                System.out.println("Invalid option. Please choose 1-5.");
+                // catches anything outside 1-6
+                System.out.println("Invalid option. Please choose 1-6.");
         }
     }
+
     // Displays the search menu and handles the selected search method
     private void handleSearch(Scanner sc) {
         System.out.println("\n--- Search Options ---");
@@ -208,6 +214,72 @@ public class SmartLibrary implements LibraryADT {
 
             default:
                 System.out.println("Invalid search option.");
+        }
+    }
+
+    // Fine manager submenu
+    private void handleFineManager(Scanner sc) {
+        System.out.println("\n--- Fine Manager ---");
+        System.out.println("1. Calculate Fine for a Student");
+        System.out.println("2. View Student Balance");
+        System.out.println("3. View All Balances");
+        System.out.println("4. Pay Fine");
+        System.out.print("Choice: ");
+
+        String input = sc.nextLine();
+
+        switch (input) {
+            case "1":
+                // ask for student id then process fine based on their loan record
+                System.out.print("Enter Student ID: ");
+                String studentId = sc.nextLine().trim();
+
+                if (studentId.isEmpty()) {
+                    System.out.println("Student ID cannot be empty.");
+                    break;
+                }
+
+                // get their latest loan record from history to calculate fine
+                LoanRecord record = history.getLatestByStudent(studentId);
+
+                if (record == null) {
+                    System.out.println("No borrowing record found for student: " + studentId);
+                } else {
+                    fineManager.processFine(record);
+                }
+                break;
+
+            case "2":
+                // show balance for a specific student
+                System.out.print("Enter Student ID: ");
+                String sid = sc.nextLine().trim();
+
+                if (sid.isEmpty()) {
+                    System.out.println("Student ID cannot be empty.");
+                } else {
+                    fineManager.showStudentBalance(sid);
+                }
+                break;
+
+            case "3":
+                // show all students with outstanding fines
+                fineManager.showAllBalances();
+                break;
+
+            case "4":
+                // pay off a student's full balance
+                System.out.print("Enter Student ID to pay fine: ");
+                String payId = sc.nextLine().trim();
+
+                if (payId.isEmpty()) {
+                    System.out.println("Student ID cannot be empty.");
+                } else {
+                    fineManager.payFine(payId);
+                }
+                break;
+
+            default:
+                System.out.println("Invalid option.");
         }
     }
 }

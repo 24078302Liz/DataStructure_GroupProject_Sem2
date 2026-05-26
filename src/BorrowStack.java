@@ -40,4 +40,17 @@ public class BorrowStack {
             System.out.println("------------------------------------------------");
         }
     }
+
+    // used by fine manager to calc fines based on their latest borrow
+    public LoanRecord getLatestByStudent(String studentId) {
+        // loop from top of stack downwards to find the most recent record
+        for (int i = stack.size() - 1; i >= 0; i--) {
+            LoanRecord record = stack.get(i);
+            if (record.getStudentId().equals(studentId)) {
+                return record;
+            }
+        }
+        // null if no record found for the student
+        return null;
+    }
 }
