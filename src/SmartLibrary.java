@@ -61,12 +61,12 @@ public class SmartLibrary implements LibraryADT {
             try {
                 choice = Integer.parseInt(menuInput.trim());
             } catch (NumberFormatException e) {
-                System.out.println("Invalid option. Please enter a number between 1-6.");
+                System.out.println("Invalid option. Please enter a number between 1-7.");
                 continue;
             }
 
             // exit condition
-            if (choice == 6) {
+            if (choice == 7) {
                 System.out.println("Goodbye !!");
                 break;
             }
@@ -83,7 +83,8 @@ public class SmartLibrary implements LibraryADT {
         System.out.println("3. Borrow Book");
         System.out.println("4. View History");
         System.out.println("5. Fine Manager");
-        System.out.println("6. Exit");
+        System.out.println("6. Add Demo Overdue Record");
+        System.out.println("7. Exit");
     }
 
     // handles choice based on what the user picked
@@ -160,9 +161,13 @@ public class SmartLibrary implements LibraryADT {
                 handleFineManager(sc);
                 break;
 
+            case 6:
+                addDemoOverdueRecord();
+                break;
+
             default:
                 // catches anything outside 1-6
-                System.out.println("Invalid option. Please choose 1-6.");
+                System.out.println("Invalid option. Please choose 1-7.");
         }
     }
 
@@ -290,5 +295,20 @@ public class SmartLibrary implements LibraryADT {
             default:
                 System.out.println("Invalid option.");
         }
+    }
+    private void addDemoOverdueRecord() {
+        Book demoBook = new Book(999, "Demo Overdue Book", "Test Author");
+
+        String demoStudentId = "UM001";
+
+        // Simulate that the book was borrowed 20 days ago
+        java.time.LocalDate oldBorrowDate = java.time.LocalDate.now().minusDays(20);
+
+        LoanRecord demoRecord = new LoanRecord(demoBook, demoStudentId, oldBorrowDate);
+
+        history.push(demoRecord);
+
+        System.out.println("Demo overdue record added for student: " + demoStudentId);
+        System.out.println("Borrow date: " + oldBorrowDate);
     }
 }
