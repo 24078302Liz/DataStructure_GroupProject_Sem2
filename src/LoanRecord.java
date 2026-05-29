@@ -1,26 +1,24 @@
 import java.time.LocalDate;
 
 public class LoanRecord {
-    // Properties to store book data and transaction context
     private Book book;
     private String studentId;
     private LocalDate borrowDate;
 
-    // Normal constructor: used when a student borrows a book today
+    // Normal constructor: borrowed today
     public LoanRecord(Book book, String studentId) {
         this.book = book;
         this.studentId = studentId;
-        this.borrowDate = LocalDate.now(); // Automatically sets to today's date
+        this.borrowDate = LocalDate.now();
     }
 
-    // Testing constructor: used when we want to simulate an old borrowing date
+    // Demo/testing constructor: allows old borrow date
     public LoanRecord(Book book, String studentId, LocalDate borrowDate) {
         this.book = book;
         this.studentId = studentId;
         this.borrowDate = borrowDate;
     }
 
-    // Getters to allow other classes to access the details safely
     public Book getBook() {
         return book;
     }
