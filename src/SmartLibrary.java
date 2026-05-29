@@ -118,7 +118,7 @@ public class SmartLibrary implements LibraryADT {
         System.out.println("4. Return Book");
         System.out.println("5. View History");
         System.out.println("6. Fine Manager");
-        System.out.println("7. Add Demo Overdue Record");
+        System.out.println("7. Demo for Overdue Record");
         System.out.println("8. Exit");
     }
 
