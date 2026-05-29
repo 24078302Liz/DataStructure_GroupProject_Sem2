@@ -42,6 +42,40 @@ public class SmartLibrary implements LibraryADT {
         }
     }
 
+    // Allows a user to return a borrowed book by ISBN
+    @Override
+    public void returnBook(int isbn) {
+        // 1. Check whether the book is already in the catalogue
+        Book existingBook = catalogue.search(isbn);
+
+        if (existingBook != null) {
+            System.out.println("Return failed: This book is already in the catalogue.");
+            return;
+        }
+
+        // 2. Find the latest borrowing record for this ISBN from the history stack
+        LoanRecord record = history.getLatestByIsbn(isbn);
+
+        if (record == null) {
+            System.out.println("Return failed: No borrowing record found for ISBN " + isbn + ".");
+            return;
+        }
+
+        // 3. Get the borrowed book from the loan record
+        Book returnedBook = record.getBook();
+
+        // 4. Add the book back into the BST catalogue
+        catalogue.insert(
+                returnedBook.getIsbn(),
+                returnedBook.getTitle(),
+                returnedBook.getAuthor()
+        );
+
+        System.out.println("Book returned successfully.");
+        System.out.println("Returned Book: [ISBN: " + returnedBook.getIsbn() + "] "
+                + returnedBook.getTitle() + " by " + returnedBook.getAuthor());
+    }
+
     // Allows a user to view history of borrowed books
     @Override
     public void viewLatestHistory(){
@@ -61,12 +95,12 @@ public class SmartLibrary implements LibraryADT {
             try {
                 choice = Integer.parseInt(menuInput.trim());
             } catch (NumberFormatException e) {
-                System.out.println("Invalid option. Please enter a number between 1-7.");
+                System.out.println("Invalid option. Please enter a number between 1-8.");
                 continue;
             }
 
             // exit condition
-            if (choice == 7) {
+            if (choice == 8) {
                 System.out.println("Goodbye !!");
                 break;
             }
@@ -81,10 +115,11 @@ public class SmartLibrary implements LibraryADT {
         System.out.println("1. Add Book");
         System.out.println("2. Search Book");
         System.out.println("3. Borrow Book");
-        System.out.println("4. View History");
-        System.out.println("5. Fine Manager");
-        System.out.println("6. Demo for Overdue Record");
-        System.out.println("7. Exit");
+        System.out.println("4. Return Book");
+        System.out.println("5. View History");
+        System.out.println("6. Fine Manager");
+        System.out.println("7. Add Demo Overdue Record");
+        System.out.println("8. Exit");
     }
 
     // handles choice based on what the user picked
@@ -152,22 +187,35 @@ public class SmartLibrary implements LibraryADT {
                 break;
 
             case 4:
-                // just calls viewLatestHistory which uses bingyan's show() method
-                viewLatestHistory();
+                // Return book by ISBN
+                System.out.print("Enter ISBN to return: ");
+                String returnInput = sc.nextLine();
+
+                int returnIsbn;
+                try {
+                    returnIsbn = Integer.parseInt(returnInput.trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid ISBN. Please enter a number.");
+                    break;
+                }
+
+                returnBook(returnIsbn);
                 break;
 
             case 5:
-                // han's fine manager submenu
-                handleFineManager(sc);
+                viewLatestHistory();
                 break;
 
             case 6:
+                handleFineManager(sc);
+                break;
+
+            case 7:
                 addDemoOverdueRecord();
                 break;
 
             default:
-                // catches anything outside 1-6
-                System.out.println("Invalid option. Please choose 1-7.");
+                System.out.println("Invalid option. Please choose 1-8.");
         }
     }
 

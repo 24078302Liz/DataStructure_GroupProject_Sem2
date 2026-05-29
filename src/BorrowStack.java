@@ -53,4 +53,20 @@ public class BorrowStack {
         // null if no record found for the student
         return null;
     }
+
+    // Finds the latest borrowing record of a book by ISBN
+    public LoanRecord getLatestByIsbn(int isbn) {
+        // Search from the top of the stack because the latest borrowing record is at the top
+        for (int i = stack.size() - 1; i >= 0; i--) {
+            LoanRecord record = stack.get(i);
+            Book book = record.getBook();
+
+            if (book.getIsbn() == isbn) {
+                return record;
+            }
+        }
+
+        // Return null if no borrowing record is found for this ISBN
+        return null;
+    }
 }
