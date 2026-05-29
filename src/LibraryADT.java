@@ -9,7 +9,7 @@ public interface LibraryADT {
     Book SearchBook(int isbn);
 
     // Allows a user to borrow a book by its ISBN
-    void borrowBook(int isbn);
+    void borrowBook(int isbn, String studentId);
 
     // Allows a user to view history of borrowed books
     void viewLatestHistory();

@@ -19,27 +19,24 @@ public class SmartLibrary implements LibraryADT {
         return catalogue.search(isbn);
     }
 
-    // Allows a user to borrow a book by its ISBN
+    // Allows a user to borrow a book by its ISBN and student ID
     @Override
-    public void borrowBook(int isbn) {
-        // 1. Find the book in the tree catalog
+    public void borrowBook(int isbn, String studentId) {
+        // 1. Find the book in the tree catalogue
         Book b = catalogue.search(isbn);
 
         if (b != null) {
-            // For demonstration, use a placeholder or scan a real student ID
-            String activeStudent = "UM-2026-AI";
+            // 2. Create a LoanRecord using the real student ID entered by the user
+            LoanRecord record = new LoanRecord(b, studentId);
 
-            // 2. CREATE THE LOAN RECORD (Your class)
-            LoanRecord record = new LoanRecord(b, activeStudent);
-
-            // 3. PUSH TO THE HISTORY STACK (Your class method)
+            // 3. Push the loan record into the borrowing history stack
             history.push(record);
 
-            // 4. PHYSICAL DELETION (Admin Logic task)
-            // Permanently deletes the node from the BST catalog as required by the PDF
+            // 4. Remove the borrowed book from the BST catalogue
             catalogue.delete(isbn);
 
-            System.out.println("Success! Book moved from catalog to your history stack.");
+            System.out.println("Success! Book borrowed by student " + studentId + ".");
+            System.out.println("Book moved from catalogue to borrowing history.");
         } else {
             System.out.println("Book not found in catalogue.");
         }
@@ -128,9 +125,10 @@ public class SmartLibrary implements LibraryADT {
                 break;
 
             case 3:
-                // validate isbn then pass to borrowBook to handle the rest
+                // Validate ISBN first
                 System.out.print("Enter ISBN to borrow: ");
                 String borrowInput = sc.nextLine();
+
                 int borrowIsbn;
                 try {
                     borrowIsbn = Integer.parseInt(borrowInput.trim());
@@ -138,7 +136,18 @@ public class SmartLibrary implements LibraryADT {
                     System.out.println("Invalid ISBN. Please enter a number.");
                     break;
                 }
-                borrowBook(borrowIsbn);
+
+                // Ask for real student ID instead of using a hardcoded value
+                System.out.print("Enter Student ID: ");
+                String studentId = sc.nextLine().trim();
+
+                if (studentId.isEmpty()) {
+                    System.out.println("Student ID cannot be empty.");
+                    break;
+                }
+
+                // Borrow the book using ISBN + student ID
+                borrowBook(borrowIsbn, studentId);
                 break;
 
             case 4:
