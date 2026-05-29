@@ -11,7 +11,6 @@ public class BorrowStack {
 
     // Pushes a new borrowing transaction onto the top of the stack
     public void push(LoanRecord record) {
-        // Validation check to prevent adding empty entries
         if (record != null) {
             stack.push(record);
         } else {
@@ -19,9 +18,8 @@ public class BorrowStack {
         }
     }
 
-    // Displays the entire history from most recent to oldest (LIFO order)
+    // Displays the entire history from most recent to oldest
     public void show() {
-        // Edge case handling if the stack has no items
         if (stack.isEmpty()) {
             System.out.println("Your borrowing history is currently empty.");
             return;
@@ -29,44 +27,49 @@ public class BorrowStack {
 
         System.out.println("\n--- Borrowing History (LIFO Order) ---");
 
-        // Loop backwards starting from the top index down to 0
         for (int i = stack.size() - 1; i >= 0; i--) {
             LoanRecord record = stack.get(i);
             Book b = record.getBook();
 
-            // Print out individual transaction details
             System.out.println("[ISBN: " + b.getIsbn() + "] " + b.getTitle() + " by " + b.getAuthor());
             System.out.println("   \u21b3 Borrowed by: " + record.getStudentId() + " on " + record.getBorrowDate());
+
+            if (record.isReturned()) {
+                System.out.println("   Status: Returned on " + record.getReturnDate());
+            } else {
+                System.out.println("   Status: Currently borrowed");
+            }
+
             System.out.println("------------------------------------------------");
         }
     }
 
-    // used by fine manager to calc fines based on their latest borrow
+    // Finds the latest ACTIVE borrowing record by student ID
+    // Active means the book has not been returned yet
     public LoanRecord getLatestByStudent(String studentId) {
-        // loop from top of stack downwards to find the most recent record
         for (int i = stack.size() - 1; i >= 0; i--) {
             LoanRecord record = stack.get(i);
-            if (record.getStudentId().equals(studentId)) {
+
+            if (record.getStudentId().equals(studentId) && !record.isReturned()) {
                 return record;
             }
         }
-        // null if no record found for the student
+
         return null;
     }
 
-    // Finds the latest borrowing record of a book by ISBN
+    // Finds the latest ACTIVE borrowing record of a book by ISBN
+    // Active means the book has not been returned yet
     public LoanRecord getLatestByIsbn(int isbn) {
-        // Search from the top of the stack because the latest borrowing record is at the top
         for (int i = stack.size() - 1; i >= 0; i--) {
             LoanRecord record = stack.get(i);
             Book book = record.getBook();
 
-            if (book.getIsbn() == isbn) {
+            if (book.getIsbn() == isbn && !record.isReturned()) {
                 return record;
             }
         }
 
-        // Return null if no borrowing record is found for this ISBN
         return null;
     }
 }
