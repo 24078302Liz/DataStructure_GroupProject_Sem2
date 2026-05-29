@@ -14,39 +14,47 @@ public class BookBST {
      * @param author The author of the new book.
      */
     public void insert(int isbn, String title, String author){
+        Book newBook = new Book(isbn, title, author);
+
         // If the tree is empty, the new book becomes the root
         if(isEmpty()){
             setRoot(new Book(isbn, title, author));
             System.out.println("Book with ISBN " + isbn + " has been added to the library.");
         }
         else{
-            // Otherwise, start the recursive insertion process from the root
-            recursiveInsert(root, new Book(isbn, title, author));
+            boolean inserted = recursiveInsert(root, newBook);
+
+            if (inserted) {
+                System.out.println("Book with ISBN " + isbn + " has been added to the library.");
+            } 
+            else {
+            System.out.println("Insertion failed: A book with ISBN " + isbn + " already exists!");
+            }
         }
     }
 
     /**
      * Recursive helper method to find the correct spot for the new book.
      */
-    private void recursiveInsert(Book currentNode, Book newBook){
+    private boolean recursiveInsert(Book currentNode, Book newBook){
         int newIsbn = newBook.getIsbn();
         int currentIsbn = currentNode.getIsbn();
 
         // Handling duplicate ISBN value
         if(newIsbn == currentIsbn){
-            System.out.println("Insertion failed: A book with ISBN " + newIsbn + " already exists!");
-            return;
+            return false;
         }
 
         // If the new book's ISBN is smaller, it belongs in the left subtree
         else if(newIsbn < currentIsbn){
             if(currentNode.hasLeft()){
                 // Keep traversing down the left side
-                recursiveInsert(currentNode.getLeft(), newBook);
+                return recursiveInsert(currentNode.getLeft(), newBook);
             }
             else{
                 // Found an empty spot, insert it here
                 currentNode.setLeft(newBook);
+                return true;
             }
         }
 
@@ -54,15 +62,14 @@ public class BookBST {
         else{
             if(currentNode.hasRight()){
                 // Keep traversing down the right side
-                recursiveInsert(currentNode.getRight(), newBook);
+                return recursiveInsert(currentNode.getRight(), newBook);
             }
             else{
                 // Found an empty spot, insert it here
                 currentNode.setRight(newBook);
+                return true;
             }
         }
-
-        System.out.println("Book with ISBN " + newIsbn + " has been added to the library.");
     }
 
 
