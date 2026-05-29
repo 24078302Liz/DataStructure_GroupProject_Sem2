@@ -162,7 +162,7 @@ public class SmartLibrary implements LibraryADT {
                 break;
 
             case 6:
-                addDemoOverdueRecord();
+                addDemoOverdueRecord(sc);
                 break;
 
             default:
@@ -296,19 +296,40 @@ public class SmartLibrary implements LibraryADT {
                 System.out.println("Invalid option.");
         }
     }
-    private void addDemoOverdueRecord() {
+    private void addDemoOverdueRecord(Scanner sc) {
+        System.out.print("Enter Student ID for demo overdue record: ");
+        String demoStudentId = sc.nextLine().trim();
+
+        if (demoStudentId.isEmpty()) {
+            System.out.println("Student ID cannot be empty.");
+            return;
+        }
+
+        System.out.print("How many days ago was this book borrowed? ");
+        String daysInput = sc.nextLine().trim();
+
+        int daysAgo;
+        try {
+            daysAgo = Integer.parseInt(daysInput);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number of days. Please enter a number.");
+            return;
+        }
+
+        if (daysAgo < 0) {
+            System.out.println("Days ago cannot be negative.");
+            return;
+        }
+
+        java.time.LocalDate oldBorrowDate = java.time.LocalDate.now().minusDays(daysAgo);
+
         Book demoBook = new Book(999, "Demo Overdue Book", "Test Author");
-
-        String demoStudentId = "UM001";
-
-        // Simulate that the book was borrowed 20 days ago
-        java.time.LocalDate oldBorrowDate = java.time.LocalDate.now().minusDays(20);
-
         LoanRecord demoRecord = new LoanRecord(demoBook, demoStudentId, oldBorrowDate);
 
         history.push(demoRecord);
 
-        System.out.println("Demo overdue record added for student: " + demoStudentId);
+        System.out.println("Demo overdue record added successfully.");
+        System.out.println("Student ID: " + demoStudentId);
         System.out.println("Borrow date: " + oldBorrowDate);
     }
 }
