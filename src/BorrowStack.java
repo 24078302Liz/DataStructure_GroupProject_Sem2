@@ -33,39 +33,16 @@ public class BorrowStack {
 
             System.out.println("[ISBN: " + b.getIsbn() + "] " + b.getTitle() + " by " + b.getAuthor());
             System.out.println("   \u21b3 Borrowed by: " + record.getStudentId() + " on " + record.getBorrowDate());
-
-            if (record.isReturned()) {
-                System.out.println("   Status: Returned on " + record.getReturnDate());
-            } else {
-                System.out.println("   Status: Currently borrowed");
-            }
-
             System.out.println("------------------------------------------------");
         }
     }
 
-    // Finds the latest ACTIVE borrowing record by student ID
-    // Active means the book has not been returned yet
+    // Finds the latest borrowing record by student ID
     public LoanRecord getLatestByStudent(String studentId) {
         for (int i = stack.size() - 1; i >= 0; i--) {
             LoanRecord record = stack.get(i);
 
-            if (record.getStudentId().equals(studentId) && !record.isReturned()) {
-                return record;
-            }
-        }
-
-        return null;
-    }
-
-    // Finds the latest ACTIVE borrowing record of a book by ISBN
-    // Active means the book has not been returned yet
-    public LoanRecord getLatestByIsbn(int isbn) {
-        for (int i = stack.size() - 1; i >= 0; i--) {
-            LoanRecord record = stack.get(i);
-            Book book = record.getBook();
-
-            if (book.getIsbn() == isbn && !record.isReturned()) {
+            if (record.getStudentId().equals(studentId)) {
                 return record;
             }
         }

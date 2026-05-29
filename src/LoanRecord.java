@@ -6,10 +6,6 @@ public class LoanRecord {
     private String studentId;
     private LocalDate borrowDate;
 
-    // Return status information
-    private boolean returned;
-    private LocalDate returnDate;
-
     // Fine processing status
     private boolean fineProcessed;
 
@@ -18,12 +14,6 @@ public class LoanRecord {
         this.book = book;
         this.studentId = studentId;
         this.borrowDate = LocalDate.now();
-
-        // When a book is first borrowed, it is not returned yet
-        this.returned = false;
-        this.returnDate = null;
-
-        // Fine has not been processed yet
         this.fineProcessed = false;
     }
 
@@ -32,12 +22,6 @@ public class LoanRecord {
         this.book = book;
         this.studentId = studentId;
         this.borrowDate = borrowDate;
-
-        // Demo overdue record is also treated as currently borrowed first
-        this.returned = false;
-        this.returnDate = null;
-
-        // Fine has not been processed yet
         this.fineProcessed = false;
     }
 
@@ -51,19 +35,6 @@ public class LoanRecord {
 
     public LocalDate getBorrowDate() {
         return borrowDate;
-    }
-
-    public boolean isReturned() {
-        return returned;
-    }
-
-    public LocalDate getReturnDate() {
-        return returnDate;
-    }
-
-    public void markReturned() {
-        this.returned = true;
-        this.returnDate = LocalDate.now();
     }
 
     public boolean isFineProcessed() {

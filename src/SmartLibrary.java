@@ -27,7 +27,9 @@ public class SmartLibrary implements LibraryADT {
 
         if (b != null) {
             LoanRecord record = new LoanRecord(b, studentId);
+
             history.push(record);
+
             catalogue.delete(isbn);
 
             System.out.println("Success! Book borrowed by student " + studentId + ".");
@@ -35,45 +37,6 @@ public class SmartLibrary implements LibraryADT {
         } else {
             System.out.println("Book not found in catalogue.");
         }
-    }
-
-    // Allows a user to return a borrowed book by ISBN
-    @Override
-    public void returnBook(int isbn) {
-        // Check whether the book is already in the catalogue
-        Book existingBook = catalogue.search(isbn);
-
-        if (existingBook != null) {
-            System.out.println("Return failed: This book is already in the catalogue.");
-            return;
-        }
-
-        // Find the latest active borrowing record for this ISBN
-        LoanRecord record = history.getLatestByIsbn(isbn);
-
-        if (record == null) {
-            System.out.println("Return failed: No active borrowing record found for ISBN " + isbn + ".");
-            return;
-        }
-
-        // Calculate fine automatically during return
-        fineManager.processFine(record);
-
-        // Add the returned book back into the catalogue
-        Book returnedBook = record.getBook();
-
-        catalogue.insert(
-                returnedBook.getIsbn(),
-                returnedBook.getTitle(),
-                returnedBook.getAuthor()
-        );
-
-        // Mark the loan record as returned
-        record.markReturned();
-
-        System.out.println("Book returned successfully.");
-        System.out.println("Returned Book: [ISBN: " + returnedBook.getIsbn() + "] "
-                + returnedBook.getTitle() + " by " + returnedBook.getAuthor());
     }
 
     // Allows a user to view history of borrowed books
@@ -96,11 +59,11 @@ public class SmartLibrary implements LibraryADT {
             try {
                 choice = Integer.parseInt(menuInput.trim());
             } catch (NumberFormatException e) {
-                System.out.println("Invalid option. Please enter a number between 1-8.");
+                System.out.println("Invalid option. Please enter a number between 1-7.");
                 continue;
             }
 
-            if (choice == 8) {
+            if (choice == 7) {
                 System.out.println("Goodbye !!");
                 break;
             }
@@ -117,11 +80,10 @@ public class SmartLibrary implements LibraryADT {
         System.out.println("1. Add Book");
         System.out.println("2. Search Book");
         System.out.println("3. Borrow Book");
-        System.out.println("4. Return Book");
-        System.out.println("5. View History");
-        System.out.println("6. Fine Manager");
-        System.out.println("7. Demo for Overdue Record");
-        System.out.println("8. Exit");
+        System.out.println("4. View History");
+        System.out.println("5. Fine Manager");
+        System.out.println("6. Demo for Overdue Record");
+        System.out.println("7. Exit");
     }
 
     // Handles choice based on what the user picked
@@ -140,23 +102,19 @@ public class SmartLibrary implements LibraryADT {
                 break;
 
             case 4:
-                handleReturnBook(sc);
-                break;
-
-            case 5:
                 viewLatestHistory();
                 break;
 
-            case 6:
+            case 5:
                 handleFineManager(sc);
                 break;
 
-            case 7:
+            case 6:
                 addDemoOverdueRecord();
                 break;
 
             default:
-                System.out.println("Invalid option. Please choose 1-8.");
+                System.out.println("Invalid option. Please choose 1-7.");
         }
     }
 
@@ -216,23 +174,6 @@ public class SmartLibrary implements LibraryADT {
         }
 
         borrowBook(borrowIsbn, studentId);
-    }
-
-    // Handles returning a book
-    private void handleReturnBook(Scanner sc) {
-        System.out.print("Enter ISBN to return: ");
-        String returnInput = sc.nextLine();
-
-        int returnIsbn;
-
-        try {
-            returnIsbn = Integer.parseInt(returnInput.trim());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid ISBN. Please enter a number.");
-            return;
-        }
-
-        returnBook(returnIsbn);
     }
 
     // Displays the search menu and handles the selected search method
@@ -316,7 +257,7 @@ public class SmartLibrary implements LibraryADT {
                 LoanRecord record = history.getLatestByStudent(studentId);
 
                 if (record == null) {
-                    System.out.println("No active borrowing record found for student: " + studentId);
+                    System.out.println("No borrowing record found for student: " + studentId);
                 } else {
                     fineManager.processFine(record);
                 }

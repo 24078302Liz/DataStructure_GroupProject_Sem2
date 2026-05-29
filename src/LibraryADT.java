@@ -12,9 +12,6 @@ public interface LibraryADT {
     // Allows a user to borrow a book by its ISBN and student ID
     void borrowBook(int isbn, String studentId);
 
-    // Allows a user to return a borrowed book by ISBN
-    void returnBook(int isbn);
-
     // Allows a user to view history of borrowed books
     void viewLatestHistory();
 }
