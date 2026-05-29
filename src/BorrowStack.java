@@ -27,7 +27,7 @@ public class BorrowStack {
             return;
         }
 
-        System.out.println("\n--- Enhanced Borrowing History (LIFO Order) ---");
+        System.out.println("\n--- Borrowing History (LIFO Order) ---");
 
         // Loop backwards starting from the top index down to 0
         for (int i = stack.size() - 1; i >= 0; i--) {
