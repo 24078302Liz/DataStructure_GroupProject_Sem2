@@ -34,7 +34,6 @@ public class SmartLibrary implements LibraryADT {
             catalogue.delete(isbn);
 
             System.out.println("Success! Book borrowed by student " + studentId + ".");
-            System.out.println("Book moved from catalogue to borrowing history.");
         } else {
             System.out.println("Book not found in catalogue.");
         }
