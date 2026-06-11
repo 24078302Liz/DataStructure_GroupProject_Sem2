@@ -3,6 +3,7 @@ import java.util.Scanner;
 /**
  * Implements the library operations and provides a console menu for users.
  */
+
 public class SmartLibrary implements LibraryADT {
     private BookBST catalogue = new BookBST();
     private BorrowStack history = new BorrowStack();
@@ -254,12 +255,14 @@ public class SmartLibrary implements LibraryADT {
                     break;
                 }
 
-                LoanRecord record = history.getLatestByStudent(studentId);
+                java.util.List<LoanRecord> records = history.getAllByStudent(studentId);
 
-                if (record == null) {
+                if (records.isEmpty()) {
                     System.out.println("No borrowing record found for student: " + studentId);
                 } else {
-                    fineManager.processFine(record);
+                    for (LoanRecord r : records) {
+                        fineManager.processFine(r);
+                    }
                 }
                 break;
 

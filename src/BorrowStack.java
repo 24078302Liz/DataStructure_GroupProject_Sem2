@@ -49,4 +49,18 @@ public class BorrowStack {
 
         return null;
     }
+
+    public java.util.List<LoanRecord> getAllByStudent(String studentId) {
+        java.util.List<LoanRecord> result = new java.util.ArrayList<>();
+
+        for (int i = stack.size() - 1; i >= 0; i--) {
+            LoanRecord record = stack.get(i);
+
+            if (record.getStudentId().equals(studentId)) {
+                result.add(record);
+            }
+        }
+
+        return result;
+    }
 }
