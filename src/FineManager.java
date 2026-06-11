@@ -46,27 +46,26 @@ public class FineManager {
 
     // Processes a fine for a loan record and prevents duplicate fine charging
     public void processFine(LoanRecord record) {
-        String studentId = record.getStudentId();
+    String studentId = record.getStudentId();
 
-        if (record.isFineProcessed()) {
-            System.out.println("Fine has already been processed for student: " + studentId);
-            return;
-        }
-
-        double fine = calculateFine(record);
-
-        if (fine > 0) {
-            addFine(studentId, fine);
-            record.markFineProcessed();
-
-            System.out.println("Fine of RM " + String.format("%.2f", fine)
-                    + " added to student: " + studentId);
-        } else {
-            record.markFineProcessed();
-
-            System.out.println("No fine for student: " + studentId + " (returned on time).");
-        }
+    // Check if fine was already charged
+    if (record.isFineProcessed()) {
+        System.out.println("Fine has already been processed for student: " + studentId);
+        return;
     }
+
+    double fine = calculateFine(record);
+
+    if (fine > 0) {
+        addFine(studentId, fine);
+        record.markFineProcessed(); // Only mark if fine > 0
+        System.out.println("Fine of RM " + String.format("%.2f", fine)
+                + " added to student: " + studentId);
+    } else {
+        // Do NOT mark fine as processed if fine is 0
+        System.out.println("No fine currently due for student: " + studentId);
+    }
+}
 
     // Pays off a student's balance fully
     public void payFine(String studentId) {
