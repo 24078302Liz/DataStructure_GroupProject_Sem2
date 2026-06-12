@@ -186,9 +186,9 @@ All features were verified through a full QA matrix: invalid menu input, non-int
 
 ---
 
-## 🔗 Repository
+## 🔗 Links & Resources
 
-🌐 [github.com/24078302Liz/DataStructure_GroupProject_Sem2](https://github.com/24078302Liz/DataStructure_GroupProject_Sem2.git)
+* 📄 **Documentation:** [Smart Library Technical Report (PDF)](./Smart%20Library%20Technical%20Report.pdf)
 
 ---
 
