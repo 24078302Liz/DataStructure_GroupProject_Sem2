@@ -1,54 +1,199 @@
-# Smart Library Management System 📚
+<div align="center">
 
-**Universiti Malaya | WIA1002 DATA STRUCTURE | SEM II 2025/2026**
-**Instructor:** DR. MOHAMED N. M. LUBANI
-**Occurrence 10, Team 2**
+# 📚 Smart Library Management System
 
-[📘 Read the full Smart Library Technical Report (PDF)](./Smart_Library_Technical_Report.pdf)
+### *A Java-based terminal library management system powered by BSTs, Stacks, and HashMaps*
 
-## 📖 Executive Summary
-The Smart Library Management System is a terminal-based tool built to handle the everyday administrative work of a university library. Designed from the ground up using object-oriented principles, the system explores what happens when different data access strategies are pitted against each other inside the same system.
+**Sem II 2025/2026** · Dr. Mohamed N. M. Lubani · Occurrence 10, Team 2
 
-To bridge the opposing requirements of rapid catalogue lookups and reliable chronological transaction records, the system utilizes a dual-engine approach:
-* **The Catalogue Inventory:** Managed entirely through a custom Binary Search Tree (BST) to ensure lookups stay fast in logarithmic time as the collection grows.
-* **The Borrowing Registry Ledger:** Governed by a Last-In-First-Out (LIFO) stack, mirroring how people naturally think about their recent borrowing history.
+</div>
 
-## 🏗️ System Architecture
+---
 
-### 1. Abstract Data Type (ADT) & Information Hiding
-The system guarantees a security boundary via the `LibraryADT` interface, defining operational capabilities without leaking architectural details. By enforcing constraints like encapsulated tree pointers (`private Book root;`) and protected stack arrays (`private Stack<Book> stack;`), the internal states remain unexposed to client-side routines.
+## 👥 Team
 
-### 2. Catalogue Architecture: Binary Search Tree (BST)
-The `Book` class acts as both the business entity and the tree node, containing bibliographic metadata alongside self-referential `left` and `right` node pointers.
-* **Recursive Insertion:** Rejects duplicate ISBNs and dynamically navigates the tree structure.
-* **Logarithmic Search:** Discards half the search space at every step, allowing rapid lookups.
-* **Multi-Scenario Deletion:** When a book is borrowed, it is excised via structural deletion, correctly handling leaf nodes, single children, and nodes with two children via an In-Order Successor.
+| 👤 Member | 🆔 Matric No. | 🛠️ Role |
+|---|---|---|
+| Nazeef Nuwaisir Khan | 24085530 | 🌳 Catalogue Architect |
+| Chen Bingyan | 24078302 | 📚 Borrowing History |
+| Yudong Chen | 24074901 | 🔍 Record Finder |
+| Hilal Mumtaz Saleh Harahap | 24200675 | 🧩 ADT Designer |
+| Beby Azzura | 24201647 | ⚙️ Admin Logic & Integration |
 
-### 3. Transaction Registry: Stack Design
-Built around `BorrowStack`, the system wraps Java's built-in `java.util.Stack` inside a custom wrapper to block unauthorized structural modifications.
-* **Null-Safety Boundaries:** An absolute guard rail rejects null pointers, preventing runtime NullPointerExceptions.
-* **Reverse-Chronological Rendering:** Iterates via a reverse index loop (`size() - 1` down to `0`), displaying history correctly without wiping the stack data.
+---
 
-### 4. Integration & UI Layer
-The `SmartLibrary` class links the modules into an atomic transaction flow encompassing Query Despatch, History Preservation, Catalogue Excision, and Fault Handling. The system utilizes robust type-parsing scanners (`Integer.parseInt`) to catch `NumberFormatException` errors, ensuring invalid text inputs loop back to the menu cleanly instead of crashing the program.
+## 🌟 Overview
 
-## ⚡ Performance Analysis
+The **Smart Library Management System** is a terminal-based Java application that simulates the everyday operations of a university library. It uses a **dual-engine architecture**, pairing each type of data with the data structure best suited to its access pattern:
 
-| System Operation | Underlying Structure | Asymptotic Complexity | Algorithmic Rationale |
-| :--- | :--- | :--- | :--- |
-| **Add Book** | BST Dynamic Insertion | Avg: O(log n) <br> Worst: O(n) | Each step eliminates half the remaining paths. |
-| **Search Book** | BST Key Comparison | Avg: O(log n) <br> Worst: O(n) | Logarithmic depth ensures fast lookups by comparing keys. |
-| **Borrow Book** | BST Search + Delete + Stack Push | Avg: O(log n) | Combines a search lookup, tree re-linking, and a constant time stack push. |
-| **View History** | Sequential Stack Traversal | Strictly O(k) | Requires rendering every borrowed entry exactly once (k = size of ledger). |
+| 🗃️ Data | 🏗️ Structure | ⚡ Why |
+|---|---|---|
+| **Catalogue** | Binary Search Tree | O(log n) lookups, inserts, and deletes by ISBN |
+| **Borrowing Registry** | Stack (LIFO) | Most recent borrow always shows first |
+| **Fine Balances** | HashMap | O(1) average lookup/update per student |
 
-*Note on Bottlenecks:* BST performance can degrade to linear time if keys are added in strictly sorted order. Future iterations may adopt self-balancing trees (like AVL or Red-Black Trees) to maintain optimal structure.
+A shared `LibraryADT` interface enforces a clean contract between the console UI and the backend — full **information hiding** across all internal structures.
 
-## 👨‍💻 Team Distribution
+---
 
-| Engineer                                        | Role Assignment | Core Architectural Responsibility |
-|:------------------------------------------------| :--- | :--- |
-| **Chen BingYan** <br>*(24078302)*               | Borrowing History | Constructed the `BorrowStack` transactional layer, enforced null-safety, and implemented non-destructive reverse-index stack traversal. |
-| **Beby Azzura** <br>*(24201647)*                | Integration & UI | Wrote the main loop console harness, implemented safe token-based input scanners, and fused the BST-to-Stack workflow. |
-| **YuDong Chen** <br>*(24074901)*                | Record Finder | Designed and optimized the recursive lookup algorithms establishing key-matching conditional branches. |
-| **Hilal Mumtaz Saleh Harahap** <br>*(24200675)* | ADT Designer | Authored the structural contract (`LibraryADT`), governed architectural compliance, and verified information hiding. |
-| **Nazeef Nuwaisir Khan** <br>*(24085530)*       | Catalogue Architect | Engineered the `Book` node topology and recursive leaf/branch node balancing insertion mechanics. |
+## ✨ Features
+
+### 🖥️ Main Menu
+
+| # | Option | Description |
+|---|--------|-------------|
+| 1️⃣ | **Add Book** | Insert ISBN, title, author into the BST. Rejects duplicate ISBNs. |
+| 2️⃣ | **Search Book** | Submenu: search by ISBN (O(log n)), Title, or Author (full traversal, case-insensitive). |
+| 3️⃣ | **Borrow Book** | Creates a `LoanRecord`, pushes it to history, removes the book from the catalogue. |
+| 4️⃣ | **View History** | Shows all borrowed books, most recent first (non-destructive). |
+| 5️⃣ | **Fine Manager** | Calculate fines, view balances, pay fines. |
+| 6️⃣ | **Demo Overdue Record** | Generates a sample overdue loan (RM 3.00 fine) for testing. |
+| 7️⃣ | **Exit** | Terminates the program. |
+
+> 💡 Options **1–4 & 7** form the original required five-option menu. Options **5 & 6** are enhancements layered on top, without changing the required flow.
+
+---
+
+## 🏛️ Architecture
+
+```
+SmartLibrary  ──implements──▶  LibraryADT
+     │
+     ├── BookBST        (catalogue, private root)
+     ├── BorrowStack     (history, private Stack<LoanRecord>)
+     └── FineManager     (balances, private HashMap<String, Double>)
+```
+
+### 🧱 Core Classes
+
+<details>
+<summary><b>📘 Book</b> — bibliographic entity & BST node</summary>
+
+<br>
+
+`isbn`, `title`, `author`, `left`, `right`
+
+</details>
+
+<details>
+<summary><b>🌳 BookBST</b> — the catalogue engine</summary>
+
+<br>
+
+- `recursiveInsert()` — insert + reject duplicates
+- `recursiveSearch()` — O(log n) ISBN lookup
+- `recursiveDelete()` — handles all 3 BST deletion scenarios (leaf, single child, two children via in-order successor)
+- `searchByTitle()` / `searchByAuthor()` — O(n) full traversal, case-insensitive
+
+</details>
+
+<details>
+<summary><b>🧾 LoanRecord</b> — immutable transaction record</summary>
+
+<br>
+
+Snapshot of the borrowed book + `studentId` + `borrowDate` + one-way `fineProcessed` flag
+
+</details>
+
+<details>
+<summary><b>📥 BorrowStack</b> — LIFO transaction ledger</summary>
+
+<br>
+
+- `push()` — null-safe insertion
+- `show()` — non-destructive reverse traversal (most recent first)
+- `getAllByStudent()` / `getLatestByStudent()` — fine-evaluation lookups
+
+</details>
+
+<details>
+<summary><b>💰 FineManager</b> — overdue fine subsystem</summary>
+
+<br>
+
+- `calculateFine()` — RM 0.50/day, 14-day loan period
+- `processFine()` — idempotent charging
+- `addFine()`, `payFine()`, `showStudentBalance()`, `showAllBalances()`
+
+</details>
+
+<details>
+<summary><b>🧩 LibraryADT</b> — interface contract</summary>
+
+<br>
+
+```java
+public interface LibraryADT {
+    void addBook(int isbn, String title, String author);
+    Book searchBook(int isbn);
+    void borrowBook(int isbn, String studentId);
+    void viewLatestHistory();
+}
+```
+
+</details>
+
+---
+
+## 🔐 Information Hiding
+
+- 🌳 `BookBST.root` → `private`
+- 📥 `BorrowStack.stack` → `private`
+- 💰 Fine balance map → `private`
+- 🏛️ `SmartLibrary`'s `catalogue`, `history`, `fineManager` → `private`
+- 🧾 `LoanRecord` exposes data only via getters (`fineProcessed` flippable once)
+
+---
+
+## ⚡ Algorithmic Complexity
+
+| Operation | Structure | Complexity |
+|---|---|---|
+| Add Book | BST Insert | Avg `O(log n)` / Worst `O(n)` |
+| Search by ISBN | BST Search | Avg `O(log n)` / Worst `O(n)` |
+| Search by Title/Author | Full Traversal | `O(n)` |
+| Borrow Book | Search + Delete + Push | Avg `O(log n)` |
+| View History | Stack Traversal | `O(k)` |
+| Retrieve Student Records | Reverse Stack Scan | `O(k)` |
+| Calculate Fine | Date Math + HashMap | `O(1)` per record |
+| Lookup/View Balances | HashMap | `O(1)` avg / `O(s)` full |
+
+---
+
+## ✅ Input Validation
+
+- All numeric input parsed as a `String` → `Integer.parseInt()` inside try/catch
+- Invalid input (`"abc"`) → warning + return to menu (no crash)
+- Empty title/author/keyword inputs trimmed and rejected before processing
+
+---
+
+## 🚀 Getting Started
+
+```bash
+javac *.java
+java Main
+```
+
+---
+
+## 🧪 Testing
+
+All features were verified through a full QA matrix: invalid menu input, non-integer ISBNs, empty metadata, duplicate ISBNs, successful/failed search & borrow, LIFO history ordering, and the complete fine lifecycle (overdue, on-time, duplicate charging, balance viewing, payment).
+
+**Result: ✅ All test cases PASSED**
+
+---
+
+## 🔗 Repository
+
+🌐 [github.com/24078302Liz/DataStructure_GroupProject_Sem2](https://github.com/24078302Liz/DataStructure_GroupProject_Sem2.git)
+
+---
+
+<div align="center">
+
+*Built with ☕ and recursion by Team 2 — WIA1002 Data Structure*
+
+</div>
