@@ -12,13 +12,13 @@
 
 ## 👥 Team
 
-| 👤 Member | 🆔 Matric No. | 🛠️ Role |
-|---|---|---|
-| Nazeef Nuwaisir Khan | 24085530 | 🌳 Catalogue Architect |
-| Chen Bingyan | 24078302 | 📚 Borrowing History |
-| Yudong Chen | 24074901 | 🔍 Record Finder |
+| 👤 Member                  | 🆔 Matric No. | 🛠️ Role |
+|----------------------------|---|---|
+| Nazeef Nuwaisir Khan       | 24085530 | 🌳 Catalogue Architect |
+| Chen BingYan               | 24078302 | 📚 Borrowing History |
+| YuDong Chen                | 24074901 | 🔍 Record Finder |
 | Hilal Mumtaz Saleh Harahap | 24200675 | 🧩 ADT Designer |
-| Beby Azzura | 24201647 | ⚙️ Admin Logic & Integration |
+| Beby Azzura                | 24201647 | ⚙️ Admin Logic & Integration |
 
 ---
 
